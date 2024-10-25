@@ -20,21 +20,22 @@ const Home: React.FC = () => {
                 <h2 className="text-3xl font-bold text-center mb-6">What We Offer</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="bg-white shadow-lg rounded-lg p-6">
-                        <img src="/images/song-order.jpg" alt="Order Song" className="w-full rounded-lg mb-4" />
+                        <img src="/images/song-order.jpg" alt="Order Song" className="w-full rounded-lg mb-4"/>
                         <h3 className="text-2xl font-bold">Order a Custom Song</h3>
                         <p>Get a personalized song crafted just for you by the artist.</p>
                     </div>
                     <div className="bg-white shadow-lg rounded-lg p-6">
-                        <img src="/images/special-message.jpg" alt="Special Message" className="w-full rounded-lg mb-4" />
+                        <img src="/images/special-message.jpg" alt="Special Message"
+                             className="w-full rounded-lg mb-4"/>
                         <h3 className="text-2xl font-bold">Receive a Special Message</h3>
                         <p>Order a heartfelt message for special occasions.</p>
                     </div>
                     <div className="bg-white shadow-lg rounded-lg p-6">
-                        <img src="/images/fan-club.jpg" alt="Fan Club" className="w-full rounded-lg mb-4" />
+                        <img src="/images/fan-club.jpg" alt="Fan Club" className="w-full rounded-lg mb-4"/>
                         <h3 className="text-2xl font-bold">Join the Fan Club</h3>
                         <p>Exclusive content and experiences await for members!</p>
                     </div>
-                </div>
+                    </div>
             </section>
         </div>
 
