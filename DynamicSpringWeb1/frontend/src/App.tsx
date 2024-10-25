@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home'; // մեր նոր ստեղծված Home էջը
 import './index.css';
+import StarsBackground from "./StarsBackground";
+
 
 const App: React.FC = () => {
   return (
@@ -11,6 +13,8 @@ const App: React.FC = () => {
           {/* Այստեղ կարող ենք ավելացնել մնացած էջերը հետագայում */}
         </Routes>
       </Router>
+
+
   );
 };
 
