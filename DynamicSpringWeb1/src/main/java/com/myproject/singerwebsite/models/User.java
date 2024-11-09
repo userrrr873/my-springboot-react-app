@@ -19,4 +19,8 @@ public class User {
     private String username;
     private String password;
     private String email;
+
+    // Ավելացնենք դերը (role) և նվերը (gift)
+    private String role;  // Օգտատիրոջ դերը՝ օրինակ՝ User, Fan Club Member, Moderator և այլն
+    private String gift;  // Նվեր, եթե կիրառվում է պրոմոկոդը
 }
