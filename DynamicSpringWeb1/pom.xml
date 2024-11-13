@@ -84,6 +84,11 @@
             <artifactId>spring-boot-starter-json</artifactId>
             <version>3.3.5</version>
         </dependency>
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>2.5.4</version>
+        </dependency>
     </dependencies>
 
     <build>
