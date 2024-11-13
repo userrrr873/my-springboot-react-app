@@ -17,8 +17,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())  // Անջատում ենք CSRF պաշտպանությունը
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/orders", "/api/register").permitAll()  // Թույլատրում ենք մուտքը նշված API-ներին առանց վավերացման
-                        .anyRequest().authenticated());  // Այլ հարցումները պահանջում են վավերացում
+                        .requestMatchers("/api/auth/login", "/api/register").permitAll()  // Թույլատրվում են միայն մուտք գործելու և գրանցման էջերը
+                        .anyRequest().authenticated())  // Այլ հարցումները պահանջում են վավերացում
+                .formLogin() // Կառուցում ենք ձևով մուտք գործելու համակարգ
+                .loginPage("/login") // Եթե ցանկանում եք մուտքի էջը ունենալ ձեր React-ում
+                .permitAll(); // Թույլատրվում է բոլորին մուտք գործել այս էջի վրա
 
         return http.build();
     }

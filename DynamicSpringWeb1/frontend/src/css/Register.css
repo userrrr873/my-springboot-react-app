@@ -27,13 +27,9 @@ h2 {
     flex-direction: column;
 }
 
-.form-field label {
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     padding: 12px;
     font-size: 1.1em;
     border: 1px solid #ccc;
@@ -41,6 +37,20 @@ input {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
 button {
@@ -58,209 +68,67 @@ button:hover {
     background-color: #45a049;
 }
 
-.error-message,
-.success-message {
-    font-size: 1.1em;
-    text-align: center;
-}
-
-.error-message {
-    color: red;
-}
-
-.success-message {
-    color: green;
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1em;
-}
-
-.password-requirements {
-    margin-top: 15px;
-    font-size: 0.9em;
-    color: #555;
-    display: grid;
-    gap: 10px;
-}
-
-.password-item {
-    padding: 8px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    font-weight: 400;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.password-item.valid {
-    background-color: #e6ffe6;
-    color: green;
-}
-
-.password-item.invalid {
-    background-color: #ffe6e6;
-    color: red;
-}
-
-.password-hint {
-    font-size: 0.9em;
-    color: #999;
-    margin-top: 5px;
-    transition: color 0.3s;
-}
-
-.password-hint.valid {
-    color: green;
-}
-
-.password-hint.invalid {
-    color: red;
-}
-
-.redirect-button {
-    background: none;
-    border: none;
-    color: #4CAF50;
-    cursor: pointer;
-    margin-bottom: 10px;
-    text-decoration: underline;
-}
-
-.fan-club-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.fan-club-button:hover {
-    background-color: #0056b3;
-}
-
-/* Անիրմացված փոխանցումներ */
-.fade-enter {
-    opacity: 0;
-    transform: translateX(-100%);
-}
-
-.fade-enter-active {
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 300ms, transform 300ms;
-}
-
-.fade-exit {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.fade-exit-active {
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 300ms, transform 300ms;
-}
-
-.register-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #f8f8f8;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-}
-
-.form-field {
-    margin-bottom: 15px;
-}
-
-.form-field label {
-    display: block;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    color: #555;
-}
-
-.password-requirements {
-    margin-top: 10px;
-    font-size: 0.9em;
-    color: #777;
-}
-
-.password-item.valid {
-    color: green;
-}
-
-.password-item.invalid {
-    color: red;
-}
-
-.error-message {
-    color: #f00;
-    font-size: 0.9em;
-    text-align: center;
-}
-
-.success-message {
-    color: #4caf50;
-    font-size: 0.9em;
-    text-align: center;
-}
-
-.submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
 .submit-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #2196f3;
+.skip-button {
+    background-color: #FF5722;
     color: white;
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
+.skip-button:hover {
+    background-color: #e64a19;
+}
+
+.password-requirements {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.password-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.password-item.valid {
+    color: #4CAF50;
+}
+
+.password-item.invalid {
+    color: #FF5722;
+}
+
+.success-message {
+    color: #4CAF50;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-message {
+    color: #FF5722;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #1976D2;
+}

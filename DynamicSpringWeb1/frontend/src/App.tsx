@@ -8,6 +8,7 @@ import Login from './pages/Login'; // Մուտք գործել/Գրանցվել �
 import AdminPanel from './pages/AdminPanel'; // Նոր Admin Panel էջը
 import Register from './pages/Register'; // Ավելացնել Register էջը
 import './index.css';
+import UserDashboard from "./pages/UserDashboard";
 
 const App: React.FC = () => {
     return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin" element={<AdminPanel />} /> {/* Ավելացված նոր Admin Panel էջ */}
                 <Route path="/register" element={<Register />} /> {/* Ավելացրու Register էջը */}
+                <Route path="/dashboard" element={<UserDashboard />} />
                 {/* Այստեղ կարող ենք ավելացնել մնացած էջերը հետագայում */}
             </Routes>
         </Router>

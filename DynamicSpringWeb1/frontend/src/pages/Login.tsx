@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../index.css';  // Assuming you have styles for form elements
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -8,20 +8,29 @@ const Login: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Example credentials check, replace with your own logic
-        if (username === 'admin' && password === 'password') {
-            // Redirect to the admin panel
-            navigate('/admin');
-        } else {
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/login', {
+                email: username,
+                password: password
+            });
+
+            if (response.status === 200) {
+                const role = response.data.role;
+
+                if (role === 'Admin') {
+                    navigate('/admin'); // Admin Panel
+                } else if (role === 'User') {
+                    navigate('/dashboard'); // User Dashboard
+                } else {
+                    navigate('/'); // Բնական էջ՝ կախված դերից
+                }
+            }
+        } catch (error) {
             setErrorMessage('Invalid credentials');
         }
-    };
-
-    const goToRegister = () => {
-        navigate('/register');  // Navigate to register page
     };
 
     return (
@@ -50,10 +59,6 @@ const Login: React.FC = () => {
 
                 <button type="submit" className="submit-button">Մուտք գործել</button>
             </form>
-
-            <div className="register-link">
-                <p>Արդեն չունեք հաշիվ? <button onClick={goToRegister}>Գրանցվել</button></p>
-            </div>
         </div>
     );
 };

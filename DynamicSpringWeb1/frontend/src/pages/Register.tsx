@@ -12,6 +12,7 @@ interface PasswordRules {
 }
 
 const Register: React.FC = () => {
+    const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,18 +41,22 @@ const Register: React.FC = () => {
         });
     };
 
+    const handleNext = () => {
+        if (step < 5) setStep(step + 1);
+    };
+
+    const handleSkip = () => {
+        setStep(step + 1);
+    };
+
+    const allFieldsFilled = () => {
+        return username && email && password;
+    };
+
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!username || !email || !password) {
+        if (!allFieldsFilled()) {
             setErrorMessage('Խնդրում ենք լրացնել բոլոր դաշտերը');
-            return;
-        }
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            setErrorMessage('Խնդրում ենք մուտքագրել վավեր էլ. փոստ');
-            return;
-        }
-        if (!Object.values(passwordRequirements).every(Boolean)) {
-            setErrorMessage('Գաղտնաբառը պետք է բավարարի բոլոր պահանջներին');
             return;
         }
 
@@ -82,10 +87,6 @@ const Register: React.FC = () => {
         }
     };
 
-    const handleLoginRedirect = () => {
-        navigate('/login');
-    };
-
     return (
         <div className="register-container">
             <h2>Գրանցվել</h2>
@@ -93,64 +94,76 @@ const Register: React.FC = () => {
             {successMessage ? (
                 <div>
                     <p className="success-message">{successMessage}</p>
-                    <button onClick={handleLoginRedirect} className="login-button">Մուտք գործել</button>
+                    <button onClick={() => navigate('/login')} className="login-button">Մուտք գործել</button>
                 </div>
             ) : (
                 <form onSubmit={handleRegister} className="register-form">
-                    <div className="form-field">
-                        <label>Անուն:</label>
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                    </div>
-                    <div className="form-field">
-                        <label>Էլ. փոստ:</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    </div>
-                    <div className="form-field">
-                        <label>Գաղտնաբառ:</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                                validatePassword(e.target.value);
-                            }}
-                            required
-                        />
-                        <div className="password-requirements">
-                            <p className={`password-item ${passwordRequirements.minLength ? 'valid' : 'invalid'}`}>
-                                Նվազագույնը 8 նիշ
-                            </p>
-                            <p className={`password-item ${passwordRequirements.hasUpperCase ? 'valid' : 'invalid'}`}>
-                                Մեծատառ
-                            </p>
-                            <p className={`password-item ${passwordRequirements.hasNumber ? 'valid' : 'invalid'}`}>
-                                Թիվ
-                            </p>
-                            <p className={`password-item ${passwordRequirements.hasSpecialChar ? 'valid' : 'invalid'}`}>
-                                Հատուկ նշան (!@#$%^&*)
-                            </p>
-                            <p className={`password-item ${passwordRequirements.isLatin ? 'valid' : 'invalid'}`}>
-                                Լատինատառեր
-                            </p>
+                    {step === 1 && (
+                        <div className="form-field">
+                            <label>Անուն:</label>
+                            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
                         </div>
-                    </div>
-                    <div className="form-field">
-                        <label className="checkbox-label">
+                    )}
+                    {step === 2 && (
+                        <div className="form-field">
+                            <label>Էլ. փոստ:</label>
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        </div>
+                    )}
+                    {step === 3 && (
+                        <div className="form-field">
+                            <label>Գաղտնաբառ:</label>
                             <input
-                                type="checkbox"
-                                checked={joinFanClub}
-                                onChange={(e) => setJoinFanClub(e.target.checked)}
+                                type="password"
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                    validatePassword(e.target.value);
+                                }}
+                                required
                             />
-                            Միանալ ֆան ակումբին
-                        </label>
+                            <div className="password-requirements">
+                                <p className={`password-item ${passwordRequirements.minLength ? 'valid' : 'invalid'}`}>Նվազագույնը 8 նիշ</p>
+                                <p className={`password-item ${passwordRequirements.hasUpperCase ? 'valid' : 'invalid'}`}>Մեծատառ (A-Z)</p>
+                                <p className={`password-item ${passwordRequirements.hasNumber ? 'valid' : 'invalid'}`}>Առնվազն մեկ թիվ</p>
+                                <p className={`password-item ${passwordRequirements.hasSpecialChar ? 'valid' : 'invalid'}`}>Հատուկ նշան (!@#$%^&*)</p>
+                                <p className={`password-item ${passwordRequirements.isLatin ? 'valid' : 'invalid'}`}>Լատինատառեր</p>
+                            </div>
+                        </div>
+                    )}
+                    {step === 4 && (
+                        <div className="form-field checkbox-container">
+                            <label className="checkbox-label">
+                                <input
+                                    type="checkbox"
+                                    checked={joinFanClub}
+                                    onChange={(e) => setJoinFanClub(e.target.checked)}
+                                />
+                                Միանալ Ֆան Ակումբին
+                            </label>
+                        </div>
+                    )}
+                    {step === 5 && (
+                        <div className="form-field">
+                            <label>Promocode:</label>
+                            <input type="text" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
+                        </div>
+                    )}
+                    <div className="button-container">
+                        <button
+                            type={step < 5 ? "button" : "submit"}
+                            onClick={step < 5 ? handleNext : undefined}
+                            disabled={loading}
+                            className="submit-button"
+                        >
+                            {loading ? 'Գրանցվում է...' : step < 5 ? 'Առաջ' : 'Գրանցվել'}
+                        </button>
+                        {step > 3 && step < 5 && (
+                            <button type="button" onClick={handleSkip} className="skip-button">
+                                Բաց թողնել
+                            </button>
+                        )}
                     </div>
-                    <div className="form-field">
-                        <label>Promocode:</label>
-                        <input type="text" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
-                    </div>
-                    <button type="submit" className="submit-button" disabled={loading}>
-                        {loading ? 'Գրանցվում է...' : 'Գրանցվել'}
-                    </button>
                 </form>
             )}
         </div>
