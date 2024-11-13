@@ -7,19 +7,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class User {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String password;
-
     @Column(unique = true)
-    private String email;
+    private String name; // Օրինակ՝ "Owner", "Performer", "Moderator" և այլն
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role; // Պաշտոնի կապը
+    public Role() {}
+
+    public Role(String name) {
+        this.name = name;
+    }
 }
