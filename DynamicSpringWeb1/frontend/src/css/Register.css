@@ -132,3 +132,10 @@ button:hover {
 .login-button:hover {
     background-color: #1976D2;
 }
+
+.backToLogin {
+    padding: 10px 0;
+    position: relative;
+    text-align: center;
+    color: #ef2712;
+}

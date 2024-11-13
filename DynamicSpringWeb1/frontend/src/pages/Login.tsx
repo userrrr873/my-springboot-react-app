@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -57,7 +57,16 @@ const Login: React.FC = () => {
 
                 {errorMessage && <p className="error">{errorMessage}</p>}
 
+                <div className={"Sub"}>
                 <button type="submit" className="submit-button">Մուտք գործել</button>
+                </div>
+                <div className={"PasswordReset"}>
+                    <Link to={"/login"} className={"password-reset"}>Մոռացե՞լ եք գաղտնաբառը</Link>
+                </div>
+                <div className={"login-form-line"}></div>
+                <div className={"reg"}>
+                    <Link to={"/register"} className={"register-button"}>Ստեղծել նոր հաշիվ</Link>
+                </div>
             </form>
         </div>
     );

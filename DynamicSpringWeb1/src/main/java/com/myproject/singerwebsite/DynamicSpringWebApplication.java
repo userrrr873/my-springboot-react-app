@@ -16,9 +16,7 @@ public class DynamicSpringWebApplication {
 //    private EmailSenderService senderService;
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(DynamicSpringWebApplication.class)
-                .initializers(new DotenvApplicationInitializer())
-                .run(args);
+        new SpringApplicationBuilder(DynamicSpringWebApplication.class).run(args);
 
 
 //    @EventListener(ApplicationReadyEvent.class)

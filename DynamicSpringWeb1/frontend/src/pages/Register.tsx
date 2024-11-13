@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/Register.css';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 interface PasswordRules {
     minLength: boolean;
@@ -164,6 +164,7 @@ const Register: React.FC = () => {
                             </button>
                         )}
                     </div>
+                    <Link to="/login" className={"backToLogin"}>Արդեն ունե՞ք հաշիվ</Link>
                 </form>
             )}
         </div>
