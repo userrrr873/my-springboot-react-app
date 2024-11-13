@@ -1,7 +1,6 @@
 package com.myproject.singerwebsite;
 
 import me.paulschwarz.springdotenv.DotenvApplicationInitializer;
-import me.paulschwarz.springdotenv.DotenvConfig;
 import me.paulschwarz.springdotenv.DotenvPropertyLoader;
 import me.paulschwarz.springdotenv.DotenvPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;

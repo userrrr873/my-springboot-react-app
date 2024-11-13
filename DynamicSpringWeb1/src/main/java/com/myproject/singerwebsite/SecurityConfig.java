@@ -15,13 +15,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Անջատում ենք CSRF պաշտպանությունը
+                .csrf(csrf -> csrf.disable())  // Անջատում է CSRF պաշտպանությունը
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/register").permitAll()  // Թույլատրվում են միայն մուտք գործելու և գրանցման էջերը
+                        .requestMatchers("/api/auth/login", "/api/register").permitAll()  // Թույլատրվում են միայն մուտքի և գրանցման էջերը
                         .anyRequest().authenticated())  // Այլ հարցումները պահանջում են վավերացում
-                .formLogin() // Կառուցում ենք ձևով մուտք գործելու համակարգ
-                .loginPage("/login") // Եթե ցանկանում եք մուտքի էջը ունենալ ձեր React-ում
-                .permitAll(); // Թույլատրվում է բոլորին մուտք գործել այս էջի վրա
+                .formLogin(login -> login
+                        .loginPage("/login") // Ցանկության դեպքում նշեք React-ի մուտքագրման էջը
+                        .permitAll()); // Թույլատրում է մուտքի էջին հասանելիություն բոլորին
 
         return http.build();
     }
