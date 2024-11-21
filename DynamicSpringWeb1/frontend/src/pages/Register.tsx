@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/Register.css';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface PasswordRules {
     minLength: boolean;
@@ -41,25 +41,54 @@ const Register: React.FC = () => {
         });
     };
 
+    const validatePromoCode = (promoCode: string): boolean => {
+        const regex = /^#[a-z0-9]*$/;
+        return regex.test(promoCode);
+    };
+
+    const validateEmail = (email: string): boolean => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
     const handleNext = () => {
-        if (step < 5) setStep(step + 1);
-    };
-
-    const handleSkip = () => {
-        setStep(step + 1);
-    };
-
-    const allFieldsFilled = () => {
-        return username && email && password;
-    };
-
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!allFieldsFilled()) {
-            setErrorMessage('Խնդրում ենք լրացնել բոլոր դաշտերը');
-            return;
+        switch (step) {
+            case 1:
+                if (!username.match(/^[a-zA-Z]+$/)) {
+                    setErrorMessage('Անունը պետք է պարունակի միայն տառեր');
+                    return;
+                }
+                break;
+            case 2:
+                if (!validateEmail(email)) {
+                    setErrorMessage('Էլ. փոստի ձևաչափը սխալ է');
+                    return;
+                }
+                break;
+            case 3:
+                if (!passwordRequirements.minLength ||
+                    !passwordRequirements.hasUpperCase ||
+                    !passwordRequirements.hasNumber ||
+                    !passwordRequirements.hasSpecialChar ||
+                    !passwordRequirements.isLatin) {
+                    setErrorMessage('Գաղտնաբառը չի համապատասխանում պահանջներին');
+                    return;
+                }
+                break;
+            case 4:
+                if (promoCode && !validatePromoCode(promoCode)) {
+                    setErrorMessage('Promocode-ի ձևաչափը սխալ է');
+                    return;
+                }
+                break;
+            default:
+                break;
         }
+        setErrorMessage('');
+        setStep((prev) => prev + 1);
+    };
 
+    const handleRegister = async () => {
         setLoading(true);
 
         try {
@@ -72,11 +101,7 @@ const Register: React.FC = () => {
             if (response.status === 201) {
                 setSuccessMessage('Գրանցումը հաջողվել է');
                 setErrorMessage('');
-                setUsername('');
-                setEmail('');
-                setPassword('');
-                setJoinFanClub(false);
-                setPromoCode('');
+                setStep(1); // Վերադառնալ առաջին քայլին
             } else {
                 setErrorMessage('Ինչ-որ սխալ տեղի ունեցավ');
             }
@@ -84,6 +109,17 @@ const Register: React.FC = () => {
             setErrorMessage('Գրանցման ժամանակ սխալ տեղի ունեցավ');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Կանխել էջի reload-ը
+            if (step < 5) {
+                handleNext(); // Անցնել հաջորդ քայլին
+            } else {
+                handleRegister(); // Գրանցման գործողություն
+            }
         }
     };
 
@@ -97,17 +133,27 @@ const Register: React.FC = () => {
                     <button onClick={() => navigate('/login')} className="login-button">Մուտք գործել</button>
                 </div>
             ) : (
-                <form onSubmit={handleRegister} className="register-form">
+                <form onKeyDown={handleKeyDown} className="register-form">
                     {step === 1 && (
                         <div className="form-field">
                             <label>Անուն:</label>
-                            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
                         </div>
                     )}
                     {step === 2 && (
                         <div className="form-field">
                             <label>Էլ. փոստ:</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
                     )}
                     {step === 3 && (
@@ -145,26 +191,32 @@ const Register: React.FC = () => {
                     )}
                     {step === 5 && (
                         <div className="form-field">
-                            <label>Promocode:</label>
-                            <input type="text" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
+                            <label>Promocode: (ոչ պարտադիր)</label>
+                            <input
+                                type="text"
+                                value={promoCode}
+                                onChange={(e) => setPromoCode(e.target.value)}
+                            />
                         </div>
                     )}
                     <div className="button-container">
-                        <button
-                            type={step < 5 ? "button" : "submit"}
-                            onClick={step < 5 ? handleNext : undefined}
-                            disabled={loading}
-                            className="submit-button"
-                        >
-                            {loading ? 'Գրանցվում է...' : step < 5 ? 'Առաջ' : 'Գրանցվել'}
-                        </button>
-                        {step > 3 && step < 5 && (
-                            <button type="button" onClick={handleSkip} className="skip-button">
-                                Բաց թողնել
+                        {step < 5 && (
+                            <button type="button" onClick={handleNext} className="next-button">
+                                Հաջորդ
+                            </button>
+                        )}
+                        {step === 5 && (
+                            <button
+                                type="button"
+                                onClick={handleRegister}
+                                disabled={loading}
+                                className="submit-button"
+                            >
+                                {loading ? 'Գրանցվում է...' : 'Գրանցվել'}
                             </button>
                         )}
                     </div>
-                    <Link to="/login" className={"backToLogin"}>Արդեն ունե՞ք հաշիվ</Link>
+                    <Link to="/login" className="backToLogin">Արդեն ունե՞ք հաշիվ</Link>
                 </form>
             )}
         </div>
